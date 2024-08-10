@@ -33,8 +33,8 @@ def each_outcome(sample_text):
                 outcomes['Condition of Battery'] = assign_condition(sample_text.text)
                 
                 if outcomes['Condition of Battery'] in ['Good', 'Okay', 'Excellent']:
-                    outcomes['Battery Leak/Rust'] = "No Leak"
-                else: outcomes['Batter Leak/Rust'] = other_condition_metal(sample_text.text)
+                    outcomes['Battery Leak/Rust'] = "No"
+                else: outcomes['Batter Leak/Rust'] = "Yes, " + other_condition_metal(sample_text.text)
 
 
         # Tire Section
@@ -80,8 +80,9 @@ def each_outcome(sample_text):
                 outcomes['Engine Rust/Dent/Damage'] = "No"
 
             for token in sample_text:
-                if str(token.pos_) == "COLOUR":
+                if token._.colour == "COLOUR":
                     outcomes['Engine Oil Colour'] = token.text
+                    break
                 else: outcomes['Engine Oil Colour'] = None
             
             if re.search(r'oil', sample_text.text, re.I):
@@ -91,7 +92,7 @@ def each_outcome(sample_text):
         # Brake Section
         if re.search(r'brake', sample_text.text, re.I):
             if negative_condition(sample_text.text):
-                inspection_form['BRAKE']['Brake Fluid Level'] = negative_condition(sample_text.text)  
+                outcomes['Brake Fluid Level'] = negative_condition(sample_text.text)  
 
     else:
         keywords = r'\b(tire|tires|battery|batteries|exterior|exteriors|brake|brakes|engine|engines|header)\b'
