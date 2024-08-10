@@ -1,7 +1,7 @@
 from all_func import *
 
 def each_outcome(sample_text):
-    
+    sample_text = nlp(sample_text)
     if re.search(r'\b(navigate|open|goto|go to)\b', sample_text.text, re.I) == None:
         outcomes = {}
         # Battery Section
@@ -111,4 +111,5 @@ def each_outcome(sample_text):
 
     return outcomes
 
-print(each_outcome(sample_text))
+if __name__ == '__main__':
+    print(each_outcome(sample_text))
